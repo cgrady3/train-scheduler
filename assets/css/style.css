@@ -30,6 +30,7 @@
 
 label{
     margin-bottom: 0;
+    font-weight: bold;
 }
 
 .btn-primary{
@@ -39,4 +40,8 @@ label{
 .card-header{
     margin-bottom: 20px;
     background-color: #b2b2f3;
+}
+
+th{
+    font-weight: bold;
 }
