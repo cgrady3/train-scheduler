@@ -24,6 +24,7 @@ var trainName = '';
 var destination = '';
 var firstTrain = '';
 var frequency = '';
+var trainNum = 0;
 
 // get user input when submit button is clicked
 $('.submit-btn').on('click', function (event) {
@@ -35,6 +36,7 @@ $('.submit-btn').on('click', function (event) {
     frequency = parseInt($('#frequency').val().trim());
 
     db.ref().push({
+        trainNum: trainNum,
         trainName: trainName,
         destination: destination,
         firstTrain: firstTrain,
@@ -53,15 +55,18 @@ db.ref().on('child_added', function (data) {
 
     dv = data.val()
 
-    console.log(dv.destination)
+    var removeBtn = $('<button>').html('&#10060').attr('data-trainNum', trainNum).addClass('remove')
 
     var newTrain = $('<tr>').append(
+        $('<td>').append(removeBtn),
         $('<td>').text(dv.trainName),
         $('<td>').text(dv.destination),
         $('<td>').text(dv.firstTrain),
-        $('<td>').text(dv.frequency + 'minutes'),
+        $('<td>').text(dv.frequency + ' minutes'),
         $('<td>').text(timeMaths(dv.frequency, dv.firstTrain)),
-    );
+    ).attr('id', trainNum);
+
+    trainNum++;
 
     $('#trains').append(newTrain);
 
@@ -69,29 +74,32 @@ db.ref().on('child_added', function (data) {
     console.log("Errors occured: " + errorHandle.code)
 }
 
+
+$(document.body).on('click', '.remove', function (event) {
+    event.preventDefault();
+
+    var trainNum = $(this).attr("data-trainNum");
+    var trainRow = $("#" + trainNum)
+    trainRow.remove();
+})
+
+
 function timeMaths(frequency, firstTime) {
 
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
-
-    // Difference between the times
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
     var timeRemainder = diffTime % frequency;
-    console.log(timeRemainder);
 
     // Minute Until Train
-    var minutesTilTrain= frequency - timeRemainder;
-    console.log("MINUTES TILL TRAIN: " + minutesTilTrain);
+    var minutesTilTrain = frequency - timeRemainder;
 
     // Next Train
     var nextTrain = moment().add(minutesTilTrain, " minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    return minutesTilTrain;
 }

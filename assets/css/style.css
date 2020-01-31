@@ -49,3 +49,16 @@ th{
 .card{
     box-shadow: 5px 10px 15px #999898 ;
 }
+
+button{
+    border: none;
+    background-color: white;
+}
+
+td{
+    text-align: center;
+}
+
+th{
+    text-align: center;
+}
