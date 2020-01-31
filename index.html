@@ -12,10 +12,14 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- my css -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
     <!-- The core Firebase JS SDK -->
-    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js" defer></script>
+    <!-- firebase database -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js" defer></script>
     <!-- moment.js -->
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js" defer></script>
     <!-- my js -->
     <script type="text/javascript" src="assets/javascript/app.js" defer></script>
     <title>Document</title>
@@ -40,6 +44,7 @@
                     <th scope="col">Minutes Away</th>
                 </tr>
             </thead>
+            <tbody id="trains"></tbody>
         </table>
 
     </div>
@@ -56,14 +61,14 @@
                 <input type="text" class="form-control" id="destination">
             </div>
             <div class="form-group">
-                <label>First Train Time (HH:mm - military time)</label>
-                <input type="text" class="form-control" id="first-train">
+                <label>First Train Time</label>
+                <input type="text" class="form-control" id="first-train" placeholder="(HH:mm - military time)">
             </div>
             <div class="form-group">
-                <label>Frequency (min)</label>
-                <input type="text" class="form-control" id="frequency">
+                <label>Frequency</label>
+                <input type="text" class="form-control" id="frequency" placeholder="(min)">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
         </form>
     </div>
 </body>
