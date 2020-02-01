@@ -30,18 +30,28 @@ var trainNum = 0;
 $('.submit-btn').on('click', function (event) {
     event.preventDefault();
 
-    trainName = $('#train-name').val().trim();
-    destination = $('#destination').val().trim();
-    firstTrain = parseInt($('#first-train').val().trim());
-    frequency = parseInt($('#frequency').val().trim());
+    if ($("#train-name").val().trim() === "" ||
+        $("#destination").val().trim() === "" ||
+        $("#first-train").val().trim() === "" ||
+        $("#frequency").val().trim() === "") {
 
-    db.ref().push({
-        trainNum: trainNum,
-        trainName: trainName,
-        destination: destination,
-        firstTrain: firstTrain,
-        frequency: frequency,
-    })
+        alert("Please fill in all details to add new train");
+
+    } else {
+
+        trainName = $('#train-name').val().trim();
+        destination = $('#destination').val().trim();
+        firstTrain = parseInt($('#first-train').val().trim());
+        frequency = parseInt($('#frequency').val().trim());
+
+        db.ref().push({
+            trainNum: trainNum,
+            trainName: trainName,
+            destination: destination,
+            firstTrain: firstTrain,
+            frequency: frequency,
+        })
+    }
 
     //clear text box's
     $('#train-name').val('');
@@ -83,7 +93,6 @@ $(document.body).on('click', '.remove', function (event) {
     trainRow.remove();
 })
 
-
 function timeMaths(frequency, firstTime) {
 
     // First Time (pushed back 1 year to make sure it comes before current time)
@@ -103,3 +112,7 @@ function timeMaths(frequency, firstTime) {
 
     return minutesTilTrain;
 }
+
+setInterval(function() {
+    window.location.reload();
+  }, 60000);
