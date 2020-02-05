@@ -30,6 +30,7 @@ var trainNum = 0;
 $('.submit-btn').on('click', function (event) {
     event.preventDefault();
 
+    // chceck that user has included all input fields
     if ($("#train-name").val().trim() === "" ||
         $("#destination").val().trim() === "" ||
         $("#first-train").val().trim() === "" ||
@@ -37,13 +38,15 @@ $('.submit-btn').on('click', function (event) {
 
         alert("Please fill in all details to add new train");
 
-    } else {
+    } 
+    else {
 
         trainName = $('#train-name').val().trim();
         destination = $('#destination').val().trim();
         firstTrain = parseInt($('#first-train').val().trim());
         frequency = parseInt($('#frequency').val().trim());
 
+        // push train info to firebase
         db.ref().push({
             trainNum: trainNum,
             trainName: trainName,
@@ -65,8 +68,10 @@ db.ref().on('child_added', function (data) {
 
     dv = data.val()
 
+    // add a remove button to take a train off the screen
     var removeBtn = $('<button>').html('&#10060').attr('data-trainNum', trainNum).addClass('remove')
 
+    // append new train to train manifest
     var newTrain = $('<tr>').append(
         $('<td>').append(removeBtn),
         $('<td>').text(dv.trainName),
@@ -84,7 +89,7 @@ db.ref().on('child_added', function (data) {
     console.log("Errors occured: " + errorHandle.code)
 }
 
-
+//  enable removal of a train 
 $(document.body).on('click', '.remove', function (event) {
     event.preventDefault();
 
@@ -93,6 +98,7 @@ $(document.body).on('click', '.remove', function (event) {
     trainRow.remove();
 })
 
+// math to handle time functions
 function timeMaths(frequency, firstTime) {
 
     // First Time (pushed back 1 year to make sure it comes before current time)
@@ -113,6 +119,7 @@ function timeMaths(frequency, firstTime) {
     return minutesTilTrain;
 }
 
+// reloads page ever minute to update minutes to train arrival
 setInterval(function() {
     window.location.reload();
   }, 60000);
